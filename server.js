@@ -50,7 +50,7 @@ io.on('connection', socket => {
       res.body.data.forEach(element => {
         data += element.text;
       });
-      let newArr = data.split(/[\s.,!?"']/g);
+      let newArr = data.split(/[\s.,!?":]/g);
       // const array = data.match(/@\w+/g);
       // let newArr = array.concat(arr);
       let counts = {};
