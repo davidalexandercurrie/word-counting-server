@@ -35,6 +35,9 @@ io.on('connection', socket => {
     });
     console.log(userId.body.data.id);
     const endpointURL = `https://api.twitter.com/2/users/${userId.body.data.id}/tweets?`;
+    const params = {
+      max_results: 40,
+    };
     const res = await needle('get', endpointURL, params, {
       headers: {
         'User-Agent': 'v2TweetLookupJS',
