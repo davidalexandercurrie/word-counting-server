@@ -46,7 +46,9 @@ io.on('connection', socket => {
         console.log(data);
       });
       let arr = tokenizer.tokenize(data);
-      io.to(socket.id).emit('event', arr);
+      const array = [...str.matchAll(/@\w+/)];
+      let newArr = array.concat(arr);
+      io.to(socket.id).emit('event', newArr);
     } else {
       throw new Error('Unsuccessful request');
     }
