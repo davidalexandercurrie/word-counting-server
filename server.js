@@ -13,8 +13,6 @@ const io = require('socket.io')(httpServer, {
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const token = process.env.bearer_token;
-const natural = require('natural');
-const tokenizer = new natural.WordTokenizer();
 const endpointURLUserName = 'https://api.twitter.com/2/users/by/username/';
 const WordPOS = require('wordpos'),
   wordpos = new WordPOS();
@@ -60,16 +58,20 @@ io.on('connection', socket => {
       // let data = [[noun, adjective, mention, emoji], text];
       if (settings.includes(true)) {
         if (settings[0]) {
+          let counter = 0;
           newArr.forEach((element, index, arr) => {
-            await wordpos.isNoun(element, index => {
+            wordpos.isNoun(element, index => {
               filteredArr.push(element);
               newArr.splice(index, 1);
+              counter++;
+              if (counter == arr.length) {
+              }
             });
           });
         }
         if (settings[1]) {
           newArr.forEach((element, index, arr) => {
-            await wordpos.isAdjective(element, index => {
+            wordpos.isAdjective(element, index => {
               filteredArr.push(element);
               newArr.splice(index, 1);
             });
@@ -86,34 +88,37 @@ io.on('connection', socket => {
         if (settings[3]) {
         }
         console.log(newArr);
+        afterData();
       }
-      let counts = {};
-      let keys = [];
-      for (let i = 0; i < newArr.length; i++) {
-        let word = newArr[i].toLowerCase();
-        if (
-          counts[word] === undefined &&
-          word !== '' &&
-          word !== 't' &&
-          word !== 'co'
-        ) {
-          counts[word] = 1;
-          keys.push(word);
-        } else {
-          counts[word] = counts[word] + 1;
+      function afterData() {
+        let counts = {};
+        let keys = [];
+        for (let i = 0; i < newArr.length; i++) {
+          let word = newArr[i].toLowerCase();
+          if (
+            counts[word] === undefined &&
+            word !== '' &&
+            word !== 't' &&
+            word !== 'co'
+          ) {
+            counts[word] = 1;
+            keys.push(word);
+          } else {
+            counts[word] = counts[word] + 1;
+          }
         }
+        keys.sort(compare);
+
+        function compare(a, b) {
+          var countA = counts[a];
+          var countB = counts[b];
+          return countB - countA;
+        }
+
+        let dataToSend = { keys, counts };
+
+        io.to(socket.id).emit('event', dataToSend);
       }
-      keys.sort(compare);
-
-      function compare(a, b) {
-        var countA = counts[a];
-        var countB = counts[b];
-        return countB - countA;
-      }
-
-      let dataToSend = { keys, counts };
-
-      io.to(socket.id).emit('event', dataToSend);
     } else {
       throw new Error('Unsuccessful request');
     }
