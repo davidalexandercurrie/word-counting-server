@@ -36,7 +36,6 @@ io.on('connection', socket => {
         authorization: `Bearer ${token}`,
       },
     });
-    console.log(userId.body.data.id);
     const endpointURL = `https://api.twitter.com/2/users/${userId.body.data.id}/tweets?`;
     const params = {
       max_results: 100,
@@ -99,7 +98,6 @@ io.on('connection', socket => {
         // }
         // if (settings[3]) {
         // }
-        console.log(newArr);
         // return new array
       } else {
         let counts = {};
