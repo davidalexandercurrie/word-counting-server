@@ -33,8 +33,8 @@ io.on('connection', socket => {
         authorization: `Bearer ${token}`,
       },
     });
-    console.log(userId);
-    // const endpointURL = `https://api.twitter.com/2/users/${userId.data.id}/tweets?`;
+    console.log(userId.body.data.id);
+    const endpointURL = `https://api.twitter.com/2/users/${userId.body.data.id}/tweets?`;
     const res = await needle('get', endpointURL, params, {
       headers: {
         'User-Agent': 'v2TweetLookupJS',
