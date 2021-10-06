@@ -59,6 +59,7 @@ io.on('connection', socket => {
       if (settings.includes(true)) {
         console.log('true');
         wordpos.getPOS(newArr.join(' '), result => {
+          console.log(result);
           if (settings[0]) {
             filteredArr.concat(result.nouns);
           }
