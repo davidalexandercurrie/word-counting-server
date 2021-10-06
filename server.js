@@ -33,7 +33,7 @@ io.on('connection', socket => {
       },
     });
     if (res.body) {
-      console.log(`Receiving Elon's last ${params.max_results} Tweets`);
+      console.log(`Receiving Elon's last Tweets`);
       io.to(socket.id).emit('event', res.body);
     } else {
       throw new Error('Unsuccessful request');
