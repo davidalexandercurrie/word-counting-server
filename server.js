@@ -15,9 +15,8 @@ const path = require('path');
 const token = process.env.bearer_token;
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
-// const endpointURL = 'https://api.twitter.com/2/users/44196397/tweets?';
-const endpointURL =
-  'https://api.twitter.com/2/users/819717383975739392/tweets?';
+const endpointURLUserName = 'https://api.twitter.com/2/users/by/username/';
+
 app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
@@ -26,12 +25,15 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-  socket.on('msg', async () => {
+  socket.on('msg', async username => {
     //api request
     console.log('socket msg received!');
-    const params = {
-      max_results: 40,
-    };
+    const userId = await needle('get', endpointURLUserName + username, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const endpointURL = `https://api.twitter.com/2/users/${userId.data.id}/tweets?`;
     const res = await needle('get', endpointURL, params, {
       headers: {
         'User-Agent': 'v2TweetLookupJS',
