@@ -40,7 +40,7 @@ io.on('connection', socket => {
     if (res.body) {
       console.log(`Receiving Elon's last Tweets`);
       console.log(res.body);
-      let myString = res.body.data.forEach((element, index) => {
+      let data = res.body.data.forEach((element, index) => {
         myString += element;
       });
       io.to(socket.id).emit('event', data);
