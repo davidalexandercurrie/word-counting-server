@@ -13,7 +13,9 @@ const io = require('socket.io')(httpServer, {
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const token = process.env.bearer_token;
-const endpointURL = 'https://api.twitter.com/2/users/44196397/tweets?';
+// const endpointURL = 'https://api.twitter.com/2/users/44196397/tweets?';
+const endpointURL =
+  'https://api.twitter.com/2/users/819717383975739392/tweets?';
 app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
@@ -33,7 +35,7 @@ io.on('connection', socket => {
       },
     });
     if (res.body) {
-      console.log(`Receiving Elon's last ${40} Tweets`);
+      console.log(`Receiving Elon's last Tweets`);
       io.to(socket.id).emit('event', res.body);
     } else {
       throw new Error('Unsuccessful request');
