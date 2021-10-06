@@ -26,7 +26,6 @@ io.on('connection', socket => {
   });
   socket.on('msg', async () => {
     //api request
-    let data = "I'm returning the data to you!";
     console.log('socket msg received!');
     const params = {
       max_results: 40,
@@ -40,7 +39,7 @@ io.on('connection', socket => {
     if (res.body) {
       console.log(`Receiving Elon's last Tweets`);
       console.log(res.body);
-      let data = res.body.data.forEach((element, index) => {
+      let data = res.body.data.forEach(element => {
         data += element;
       });
       io.to(socket.id).emit('event', data);
