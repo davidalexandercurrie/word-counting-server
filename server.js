@@ -46,6 +46,7 @@ io.on('connection', socket => {
       });
       let arr = tokenizer.tokenize(data);
       const array = [...data.matchAll(/@\w+/g)];
+      console.log(array);
       let newArr = array.concat(arr);
       let counts = {};
       let keys = [];
