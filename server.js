@@ -43,12 +43,34 @@ io.on('connection', socket => {
       let data = '';
       res.body.data.forEach(element => {
         data += element.text;
-        console.log(data);
       });
       let arr = tokenizer.tokenize(data);
       const array = [...data.matchAll(/@\w+/g)];
       let newArr = array.concat(arr);
-      io.to(socket.id).emit('event', newArr);
+      let counts = {};
+      let keys = [];
+      for (let i = 0; i < newArr.length; i++) {
+        let word = newArr[i].toLowerCase();
+        if (!/\d+/.test(word)) {
+          if (counts[word] === undefined) {
+            counts[word] = 1;
+            keys.push(word);
+          } else {
+            counts[word] = counts[word] + 1;
+          }
+        }
+      }
+      keys.sort(compare);
+
+      function compare(a, b) {
+        var countA = counts[a];
+        var countB = counts[b];
+        return countB - countA;
+      }
+
+      let dataToSend = { keys, counts };
+
+      io.to(socket.id).emit('event', dataToSend);
     } else {
       throw new Error('Unsuccessful request');
     }
