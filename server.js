@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const http = require('http');
-const server = http.createServer(app);
+const httpServer = http.createServer(app);
 const io = require('socket.io')(httpServer, {
   cors: {
     origin: 'https://davidalexandercurrie.com',
@@ -27,6 +27,6 @@ io.on('connection', socket => {
   });
 });
 
-server.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log('listening on *:3000');
 });
