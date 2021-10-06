@@ -55,7 +55,7 @@ io.on('connection', socket => {
       let keys = [];
       for (let i = 0; i < newArr.length; i++) {
         let word = newArr[i].toLowerCase();
-        if (counts[word] === undefined || word === '') {
+        if (counts[word] === undefined && word !== '') {
           counts[word] = 1;
           keys.push(word);
         } else {
