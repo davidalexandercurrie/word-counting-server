@@ -64,7 +64,6 @@ io.on('connection', socket => {
           }
           if (settings[1]) {
             filteredArr.concat(result.adjectives);
-            console.log(object);
           }
           let counts = {};
           let keys = [];
