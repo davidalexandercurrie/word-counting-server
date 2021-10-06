@@ -46,7 +46,6 @@ io.on('connection', socket => {
       });
       let newArr = data.split(/[\s.,!?"']/g);
       // const array = data.match(/@\w+/g);
-      console.log(array);
       // let newArr = array.concat(arr);
       let counts = {};
       let keys = [];
