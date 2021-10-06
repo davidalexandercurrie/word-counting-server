@@ -3,8 +3,12 @@ const app = express();
 const cors = require('cors');
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server);
+const io = require('socket.io')(httpServer, {
+  cors: {
+    origin: 'https://davidalexandercurrie.com',
+    methods: ['GET', 'POST'],
+  },
+});
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 app.use(cors());
