@@ -56,71 +56,69 @@ io.on('connection', socket => {
       let newArr = data.split(/[\s.,!?":/]/g);
       let filteredArr = newArr;
       // let data = [[noun, adjective, mention, emoji], text];
-      if (settings.includes(true)) {
-        if (settings[0]) {
-          let counter = 0;
-          newArr.forEach((element, index, arr) => {
-            wordpos.isNoun(element, index => {
-              filteredArr.push(element);
-              newArr.splice(index, 1);
-              counter++;
-              if (counter == arr.length) {
-              }
-            });
-          });
+      // if (settings.includes(true)) {
+      //   if (settings[0]) {
+      //     let counter = 0;
+      //     newArr.forEach((element, index, arr) => {
+      //       wordpos.isNoun(element, index => {
+      //         filteredArr.push(element);
+      //         newArr.splice(index, 1);
+      //         counter++;
+      //         if (counter == arr.length) {
+      //         }
+      //       });
+      //     });
+      //   }
+      //   if (settings[1]) {
+      //     newArr.forEach((element, index, arr) => {
+      //       wordpos.isAdjective(element, index => {
+      //         filteredArr.push(element);
+      //         newArr.splice(index, 1);
+      //       });
+      //     });
+      //   }
+      //   if (settings[2]) {
+      //     // newArr.forEach((element, index, arr) => {
+      //     //   wordpos.isNoun(element, index => {
+      //     //     filteredArr.push(element);
+      //     //     newArr.splice(index, 1);
+      //     //   });
+      //     // });
+      //   }
+      //   if (settings[3]) {
+      //   }
+      //   console.log(newArr);
+      //   afterData();
+      // } else {
+      //   afterData();
+      // }
+      let counts = {};
+      let keys = [];
+      for (let i = 0; i < filteredArr.length; i++) {
+        let word = filteredArr[i].toLowerCase();
+        if (
+          counts[word] === undefined &&
+          word !== '' &&
+          word !== 't' &&
+          word !== 'co'
+        ) {
+          counts[word] = 1;
+          keys.push(word);
+        } else {
+          counts[word] = counts[word] + 1;
         }
-        if (settings[1]) {
-          newArr.forEach((element, index, arr) => {
-            wordpos.isAdjective(element, index => {
-              filteredArr.push(element);
-              newArr.splice(index, 1);
-            });
-          });
-        }
-        if (settings[2]) {
-          // newArr.forEach((element, index, arr) => {
-          //   wordpos.isNoun(element, index => {
-          //     filteredArr.push(element);
-          //     newArr.splice(index, 1);
-          //   });
-          // });
-        }
-        if (settings[3]) {
-        }
-        console.log(newArr);
-        afterData();
-      } else {
-        afterData();
       }
-      function afterData() {
-        let counts = {};
-        let keys = [];
-        for (let i = 0; i < filteredArr.length; i++) {
-          let word = filteredArr[i].toLowerCase();
-          if (
-            counts[word] === undefined &&
-            word !== '' &&
-            word !== 't' &&
-            word !== 'co'
-          ) {
-            counts[word] = 1;
-            keys.push(word);
-          } else {
-            counts[word] = counts[word] + 1;
-          }
-        }
-        keys.sort(compare);
+      keys.sort(compare);
 
-        function compare(a, b) {
-          var countA = counts[a];
-          var countB = counts[b];
-          return countB - countA;
-        }
-
-        let dataToSend = { keys, counts };
-
-        io.to(socket.id).emit('event', dataToSend);
+      function compare(a, b) {
+        var countA = counts[a];
+        var countB = counts[b];
+        return countB - countA;
       }
+
+      let dataToSend = { keys, counts };
+
+      io.to(socket.id).emit('event', dataToSend);
     } else {
       throw new Error('Unsuccessful request');
     }
