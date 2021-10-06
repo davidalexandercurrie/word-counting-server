@@ -89,12 +89,14 @@ io.on('connection', socket => {
         }
         console.log(newArr);
         afterData();
+      } else {
+        afterData();
       }
       function afterData() {
         let counts = {};
         let keys = [];
-        for (let i = 0; i < newArr.length; i++) {
-          let word = newArr[i].toLowerCase();
+        for (let i = 0; i < filteredArr.length; i++) {
+          let word = filteredArr[i].toLowerCase();
           if (
             counts[word] === undefined &&
             word !== '' &&
