@@ -61,7 +61,7 @@ io.on('connection', socket => {
       if (settings.includes(true)) {
         if (settings[0]) {
           newArr.forEach((element, index, arr) => {
-            wordpos.isNoun(element, index => {
+            await wordpos.isNoun(element, index => {
               filteredArr.push(element);
               newArr.splice(index, 1);
             });
@@ -69,7 +69,7 @@ io.on('connection', socket => {
         }
         if (settings[1]) {
           newArr.forEach((element, index, arr) => {
-            wordpos.isAdjective(element, index => {
+            await wordpos.isAdjective(element, index => {
               filteredArr.push(element);
               newArr.splice(index, 1);
             });
