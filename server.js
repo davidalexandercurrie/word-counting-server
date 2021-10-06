@@ -51,13 +51,11 @@ io.on('connection', socket => {
         data += element.text;
       });
       let newArr = data.split(/[\s.,!?":]/g);
-      // const array = data.match(/@\w+/g);
-      // let newArr = array.concat(arr);
       let counts = {};
       let keys = [];
       for (let i = 0; i < newArr.length; i++) {
         let word = newArr[i].toLowerCase();
-        if (counts[word] === undefined) {
+        if (counts[word] === undefined || word === '') {
           counts[word] = 1;
           keys.push(word);
         } else {
