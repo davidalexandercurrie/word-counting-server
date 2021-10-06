@@ -26,14 +26,14 @@ io.on('connection', socket => {
     //api request
     let data = "I'm returning the data to you!";
     console.log('socket msg received!');
-    const res = await needle('get', endpointURL, params, {
+    const res = await needle('get', endpointURL, {
       headers: {
         'User-Agent': 'v2TweetLookupJS',
         authorization: `Bearer ${token}`,
       },
     });
     if (res.body) {
-      console.log(`Receiving Elon's last Tweets`);
+      console.log(`Receiving Elon's last ${40} Tweets`);
       io.to(socket.id).emit('event', res.body);
     } else {
       throw new Error('Unsuccessful request');
