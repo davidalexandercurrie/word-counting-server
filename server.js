@@ -54,7 +54,7 @@ io.on('connection', socket => {
         data += element.text;
       });
       let newArr = data.split(/[\s.,!?":/]/g);
-      let filteredArr = newArr;
+      let filteredArr = [];
       // let data = [[noun, adjective, mention, emoji], text];
       if (settings.includes(true)) {
         console.log('true');
@@ -64,6 +64,7 @@ io.on('connection', socket => {
           }
           if (settings[1]) {
             filteredArr.concat(result.adjectives);
+            console.log(object);
           }
           let counts = {};
           let keys = [];
