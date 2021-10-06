@@ -44,10 +44,10 @@ io.on('connection', socket => {
       res.body.data.forEach(element => {
         data += element.text;
       });
-      let arr = tokenizer.tokenize(data);
-      const array = data.match(/@\w+/g);
+      let arr = data.split(/[\s.,!?]/g);
+      // const array = data.match(/@\w+/g);
       console.log(array);
-      let newArr = array.concat(arr);
+      // let newArr = array.concat(arr);
       let counts = {};
       let keys = [];
       for (let i = 0; i < newArr.length; i++) {
