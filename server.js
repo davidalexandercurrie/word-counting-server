@@ -36,6 +36,7 @@ io.on('connection', socket => {
         authorization: `Bearer ${token}`,
       },
     });
+    console.log(userId.body.data.id);
     const endpointURL = `https://api.twitter.com/2/users/${userId.body.data.id}/tweets?`;
     const params = {
       max_results: 100,
@@ -53,82 +54,64 @@ io.on('connection', socket => {
         data += element.text;
       });
       let newArr = data.split(/[\s.,!?":/]/g);
-      let filteredArr = [];
+      let filteredArr = newArr;
       // let data = [[noun, adjective, mention, emoji], text];
-      if (settings.includes(true)) {
-        wordpos.getPOS(newArr.join(' '), result => {
-          console.log(result.adjectives);
-          if (settings[0]) {
-            filteredArr.concat(result.nouns);
-          }
-          if (settings[1]) {
-            filteredArr.concat(result.adjectives);
-          }
-          let counts = {};
-          let keys = [];
-          for (let i = 0; i < filteredArr.length; i++) {
-            let word = filteredArr[i].toLowerCase();
-            if (
-              counts[word] === undefined &&
-              word !== '' &&
-              word !== 't' &&
-              word !== 'co'
-            ) {
-              counts[word] = 1;
-              keys.push(word);
-            } else {
-              counts[word] = counts[word] + 1;
-            }
-          }
-          keys.sort(compare);
-
-          function compare(a, b) {
-            var countA = counts[a];
-            var countB = counts[b];
-            return countB - countA;
-          }
-
-          let dataToSend = { keys, counts };
-
-          io.to(socket.id).emit('event', dataToSend);
-        });
-
-        // if (settings[2]) {
-        //   //
-        // }
-        // if (settings[3]) {
-        // }
-        // return new array
-      } else {
-        let counts = {};
-        let keys = [];
-        for (let i = 0; i < newArr.length; i++) {
-          let word = newArr[i].toLowerCase();
-          if (
-            counts[word] === undefined &&
-            word !== '' &&
-            word !== 't' &&
-            word !== 'co'
-          ) {
-            counts[word] = 1;
-            keys.push(word);
-          } else {
-            counts[word] = counts[word] + 1;
-          }
+      // if (settings.includes(true)) {
+      //   if (settings[0]) {
+      //     let counter = 0;
+      //     newArr.forEach((element, index, arr) => {
+      //       wordpos.isNoun(element, index => {
+      //         filteredArr.push(element);
+      //         newArr.splice(index, 1);
+      //         counter++;
+      //         if (counter == arr.length) {
+      //         }
+      //       });
+      //     });
+      //   }
+      //   if (settings[1]) {
+      //     newArr.forEach((element, index, arr) => {
+      //       wordpos.isAdjective(element, index => {
+      //         filteredArr.push(element);
+      //         newArr.splice(index, 1);
+      //       });
+      //     });
+      //   }
+      //   if (settings[2]) {
+      //     //
+      //   }
+      //   if (settings[3]) {
+      //   }
+      //   console.log(newArr);
+      // } else {
+      // }
+      let counts = {};
+      let keys = [];
+      for (let i = 0; i < filteredArr.length; i++) {
+        let word = filteredArr[i].toLowerCase();
+        if (
+          counts[word] === undefined &&
+          word !== '' &&
+          word !== 't' &&
+          word !== 'co'
+        ) {
+          counts[word] = 1;
+          keys.push(word);
+        } else {
+          counts[word] = counts[word] + 1;
         }
-        keys.sort(compare);
-
-        function compare(a, b) {
-          var countA = counts[a];
-          var countB = counts[b];
-          return countB - countA;
-        }
-
-        let dataToSend = { keys, counts };
-
-        io.to(socket.id).emit('event', dataToSend);
-        // return original array
       }
+      keys.sort(compare);
+
+      function compare(a, b) {
+        var countA = counts[a];
+        var countB = counts[b];
+        return countB - countA;
+      }
+
+      let dataToSend = { keys, counts };
+
+      io.to(socket.id).emit('event', dataToSend);
     } else {
       throw new Error('Unsuccessful request');
     }
