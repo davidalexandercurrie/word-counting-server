@@ -40,7 +40,10 @@ io.on('connection', socket => {
     if (res.body) {
       console.log(`Receiving Elon's last Tweets`);
       console.log(res.body);
-      io.to(socket.id).emit('event', res.body);
+      let myString = res.body.data.forEach((element, index) => {
+        myString += element;
+      });
+      io.to(socket.id).emit('event', data);
     } else {
       throw new Error('Unsuccessful request');
     }
@@ -50,24 +53,3 @@ io.on('connection', socket => {
 httpServer.listen(PORT, () => {
   console.log('listening on *:3000');
 });
-
-// async function tweets() {
-//   const params = {
-//     max_results: 40,
-//   };
-//   const res = await needle('get', endpointURL, params, {
-//     headers: {
-//       'User-Agent': 'v2TweetLookupJS',
-//       authorization: `Bearer ${token}`,
-//     },
-//   });
-//   if (res.body) {
-//     console.log(`Receiving Elon's last Tweets`);
-//     // io.to(socket.id).emit('event', res.body);
-//     console.log(res.body);
-//   } else {
-//     throw new Error('Unsuccessful request');
-//   }
-// }
-
-// tweets();
