@@ -38,9 +38,9 @@ io.on('connection', socket => {
     });
     if (res.body) {
       console.log(`Receiving Elon's last Tweets`);
-      console.log(res.body);
       let data = res.body.data.forEach(element => {
         data += element.text;
+        console.log(data);
       });
       io.to(socket.id).emit('event', data);
     } else {
