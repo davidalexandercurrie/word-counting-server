@@ -18,6 +18,7 @@ io.on('connection', socket => {
   socket.on('msg', () => {
     //api request
     let data = "I'm returning the data to you!";
+    console.log('socket msg received!');
     io.to(socket.id).emit('event', data);
   });
 });
