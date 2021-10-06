@@ -44,7 +44,7 @@ io.on('connection', socket => {
       res.body.data.forEach(element => {
         data += element.text;
       });
-      let arr = data.split(/[\s.,!?]/g);
+      let newArr = data.split(/[\s.,!?"']/g);
       // const array = data.match(/@\w+/g);
       console.log(array);
       // let newArr = array.concat(arr);
