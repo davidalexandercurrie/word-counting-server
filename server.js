@@ -28,7 +28,10 @@ io.on('connection', socket => {
     //api request
     let data = "I'm returning the data to you!";
     console.log('socket msg received!');
-    const res = await needle('get', endpointURL, {
+    const params = {
+      max_results: 40,
+    };
+    const res = await needle('get', endpointURL, params {
       headers: {
         'User-Agent': 'v2TweetLookupJS',
         authorization: `Bearer ${token}`,
