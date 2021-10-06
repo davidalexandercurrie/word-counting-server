@@ -39,6 +39,7 @@ io.on('connection', socket => {
     });
     if (res.body) {
       console.log(`Receiving Elon's last Tweets`);
+      console.log(res.body);
       io.to(socket.id).emit('event', res.body);
     } else {
       throw new Error('Unsuccessful request');
