@@ -13,6 +13,8 @@ const io = require('socket.io')(httpServer, {
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const token = process.env.bearer_token;
+const natural = require('natural');
+const tokenizer = new natural.WordTokenizer();
 // const endpointURL = 'https://api.twitter.com/2/users/44196397/tweets?';
 const endpointURL =
   'https://api.twitter.com/2/users/819717383975739392/tweets?';
@@ -43,7 +45,8 @@ io.on('connection', socket => {
         data += element.text;
         console.log(data);
       });
-      io.to(socket.id).emit('event', data);
+      let arr = tokenizer.tokenize(data);
+      io.to(socket.id).emit('event', arr);
     } else {
       throw new Error('Unsuccessful request');
     }
