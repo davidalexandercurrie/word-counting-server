@@ -45,13 +45,13 @@ io.on('connection', socket => {
         data += element.text;
       });
       let arr = tokenizer.tokenize(data);
-      const array = [...data.matchAll(/@\w+/g)];
+      const array = data.match(/@\w+/g);
       console.log(array);
       let newArr = array.concat(arr);
       let counts = {};
       let keys = [];
       for (let i = 0; i < newArr.length; i++) {
-        let word = newArr[i];
+        let word = newArr[i].toLowerCase();
         if (counts[word] === undefined) {
           counts[word] = 1;
           keys.push(word);
