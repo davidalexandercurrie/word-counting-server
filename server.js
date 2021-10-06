@@ -16,6 +16,8 @@ const token = process.env.bearer_token;
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 const endpointURLUserName = 'https://api.twitter.com/2/users/by/username/';
+const WordPOS = require('wordpos'),
+  wordpos = new WordPOS();
 
 app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'public')));
@@ -25,7 +27,10 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-  socket.on('msg', async username => {
+  socket.on('msg', async data => {
+    let username = data[1];
+    let settings = data[0];
+
     //api request
     console.log('socket msg received!');
     const userId = await needle('get', endpointURLUserName + username, {
@@ -45,12 +50,43 @@ io.on('connection', socket => {
       },
     });
     if (res.body) {
-      console.log(`Receiving Elon's last Tweets`);
+      console.log(`Receiving ${username}'s last Tweets`);
       let data = '';
       res.body.data.forEach(element => {
         data += element.text;
       });
       let newArr = data.split(/[\s.,!?":/]/g);
+      let filteredArr = newArr;
+      // let data = [[noun, adjective, mention, emoji], text];
+      if (settings.includes(true)) {
+        if (settings[0]) {
+          newArr.forEach((element, index, arr) => {
+            wordpos.isNoun(element, index => {
+              filteredArr.push(element);
+              newArr.splice(index, 1);
+            });
+          });
+        }
+        if (settings[1]) {
+          newArr.forEach((element, index, arr) => {
+            wordpos.isAdjective(element, index => {
+              filteredArr.push(element);
+              newArr.splice(index, 1);
+            });
+          });
+        }
+        if (settings[2]) {
+          // newArr.forEach((element, index, arr) => {
+          //   wordpos.isNoun(element, index => {
+          //     filteredArr.push(element);
+          //     newArr.splice(index, 1);
+          //   });
+          // });
+        }
+        if (settings[3]) {
+        }
+        console.log(newArr);
+      }
       let counts = {};
       let keys = [];
       for (let i = 0; i < newArr.length; i++) {
