@@ -60,6 +60,7 @@ io.on('connection', socket => {
       function processData() {
         let counts = {};
         let keys = [];
+        console.log(filteredArr);
         for (let i = 0; i < filteredArr.length; i++) {
           let word = filteredArr[i].toLowerCase();
           if (
@@ -75,7 +76,6 @@ io.on('connection', socket => {
           }
         }
         keys.sort(compare);
-        console.log(keys);
 
         function compare(a, b) {
           var countA = counts[a];
