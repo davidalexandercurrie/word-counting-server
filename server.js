@@ -60,7 +60,7 @@ io.on('connection', socket => {
         wordpos.getPOS(newArr.join(' '), result => {
           if (settings[0]) {
             filteredArr.concat(result.nouns);
-            console.log('noun');
+            console.log(filteredArr);
           }
           if (settings[1]) {
             console.log('adjective');
