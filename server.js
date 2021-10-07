@@ -111,8 +111,8 @@ io.on('connection', socket => {
 
             console.log('emoji', filteredArr);
           }
+          processData(filteredArr);
         });
-        processData(filteredArr);
       } else {
         processData(newArr);
         console.log('no params');
