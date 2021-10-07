@@ -57,7 +57,7 @@ io.on('connection', socket => {
       let newArr = data.split(/[\s.,!?":/]/g);
       let filteredArr = [];
 
-      function processData() {
+      function processData(filteredArr) {
         let counts = {};
         let keys = [];
         console.log(filteredArr);
@@ -111,9 +111,9 @@ io.on('connection', socket => {
             });
           }
         });
-        processData();
+        processData(filteredArr);
       } else {
-        processData();
+        processData(filteredArr);
         console.log('no params');
       }
     } else {
