@@ -75,6 +75,7 @@ io.on('connection', socket => {
           }
         }
         keys.sort(compare);
+        console.log(keys);
 
         function compare(a, b) {
           var countA = counts[a];
