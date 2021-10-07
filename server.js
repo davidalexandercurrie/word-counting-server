@@ -57,12 +57,12 @@ io.on('connection', socket => {
       let newArr = data.split(/[\s.,!?":/]/g);
       let filteredArr = [];
 
-      function processData(filteredArr) {
+      function processData(words) {
         let counts = {};
         let keys = [];
-        console.log(filteredArr);
-        for (let i = 0; i < filteredArr.length; i++) {
-          let word = filteredArr[i].toLowerCase();
+        console.log(words);
+        for (let i = 0; i < words.length; i++) {
+          let word = words[i].toLowerCase();
           if (
             counts[word] === undefined &&
             word !== '' &&
