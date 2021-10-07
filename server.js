@@ -99,7 +99,7 @@ io.on('connection', socket => {
             console.log('adjective', filteredArr);
           }
           if (settings[2]) {
-            filteredArr = filteredArr.concat(newArr.join(' ').match(/@w+/g));
+            filteredArr = filteredArr.concat(newArr.join(' ').match(/@\w+/g));
             console.log('mention', filteredArr);
           }
           if (settings[3]) {
