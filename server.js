@@ -63,7 +63,7 @@ io.on('connection', socket => {
             console.log('noun');
           }
           if (settings[1]) {
-            console.log(adjective);
+            console.log('adjective');
           }
           if (settings[2]) {
             console.log('mention');
