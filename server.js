@@ -58,8 +58,8 @@ io.on('connection', socket => {
       // let data = [[noun, adjective, mention, emoji], text];
       if (settings.includes(true)) {
         wordpos.getPOS(newArr.join(' '), result => {
-          console.log(result);
           if (settings[0]) {
+            filteredArr.concat(result.nouns);
             console.log('noun');
           }
           if (settings[1]) {
