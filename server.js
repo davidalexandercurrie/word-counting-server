@@ -92,23 +92,24 @@ io.on('connection', socket => {
         wordpos.getPOS(newArr.join(' '), result => {
           if (settings[0]) {
             filteredArr = filteredArr.concat(result.nouns);
-            console.log(filteredArr);
+            console.log('noun', filteredArr);
           }
           if (settings[1]) {
             filteredArr = filteredArr.concat(result.adjectives);
-            console.log('adjective');
+            console.log('adjective', filteredArr);
           }
           if (settings[2]) {
             filteredArr = filteredArr.concat(newArr.join(' ').match(/@w+/g));
-            console.log('mention');
+            console.log('mention', filteredArr);
           }
           if (settings[3]) {
-            console.log('emoji');
             newArr.forEach(element => {
               if (containsEmoji(element)) {
                 filteredArr.push(element);
               }
             });
+
+            console.log('emoji', filteredArr);
           }
         });
         processData(filteredArr);
