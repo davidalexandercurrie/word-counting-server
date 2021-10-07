@@ -17,6 +17,7 @@ const endpointURLUserName = 'https://api.twitter.com/2/users/by/username/';
 const WordPOS = require('wordpos'),
   wordpos = new WordPOS();
 const containsEmoji = require('contains-emoji');
+const emojiRegex = require('emoji-regex');
 
 app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'public')));
