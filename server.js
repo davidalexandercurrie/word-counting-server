@@ -103,12 +103,10 @@ io.on('connection', socket => {
             console.log('mention', filteredArr);
           }
           if (settings[3]) {
-            newArr.forEach(element => {
-              if (containsEmoji(element)) {
-                filteredArr.push(element);
-              }
-            });
-
+            const regex = emojiRegex();
+            for (const match of newArr.join(' ').matchAll(regex)) {
+              filteredArr.push(match[0]);
+            }
             console.log('emoji', filteredArr);
           }
           processData(filteredArr);
