@@ -114,7 +114,7 @@ io.on('connection', socket => {
         });
         processData(filteredArr);
       } else {
-        processData(filteredArr);
+        processData(newArr);
         console.log('no params');
       }
     } else {
